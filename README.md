@@ -14,11 +14,17 @@ Table of Contents
     * [2: Set up your development environment](#2-set-up-your-development-environment)
     * [3: Create a new Django project](#3-create-a-new-django-project)
     * [4: Define your Django models](#4-define-your-django-models)
-    * [5: ](#5-set-up-your-postgresql-database)
-    * [6: ](#6-create-your-django-views)
-    * [7: ](#7-define-your-django-url-patterns)
-* [Next Steps](#next-step-questions)
-* [Tech Used](#list-of-tech-used)
+    * [5: Set up your ](#5-set-up-your-postgresql-database)
+    * [6: Create your Django views](#6-create-your-django-views)
+    * [7: Define your Django URL patterns](#7-define-your-django-url-patterns)
+    * [8: Set up your React app](#8-set-up-your-react-app)
+    * [9: Create your React components](#9-create-your-react-components)
+    * [10: Connect your React app to your Django backend](#10-connect-your-react-app-to-your-django-backend)
+    * [11: Test your app](#11-test-your-app)
+    * [12: Deploy your app](#12-deploy-your-app)
+* [Next Step Questions](#next-step-questions)
+* [Proposed Next Steps](#proposed-next-steps)
+* [List of Tech Used](#list-of-tech-used)
 
 
 # Project Overview
@@ -71,15 +77,17 @@ Please output as markdown code so I can easily copy it.
 
 7. [Define your Django URL patterns](#7-define-your-django-url-patterns) - Create URL patterns that will map to your views, allowing your app to respond to requests at specific URLs.
 
-8. [Set up your React app]() - Create a new React app and set up the necessary dependencies and configuration files.
+8. [Set up your React app](#8-set-up-your-react-app) - Create a new React app and set up the necessary dependencies and configuration files.
 
-9. [Create your React components]() - Define the React components that will display your app's user interface and interact with your Django backend.
+9. [Create your React components](#9-create-your-react-components) - Define the React components that will display your app's user interface and interact with your Django backend.
 
-10. [Connect your React app to your Django backend]() - Use AJAX or a similar method to connect your React app to your Django views and retrieve data from your PostgreSQL database.
+10. [Connect your React app to your Django backend](#10-connect-your-react-app-to-your-django-backend) - Use AJAX or a similar method to connect your React app to your Django views and retrieve data from your PostgreSQL database.
 
-11. [Test your app]() - Test your app locally to ensure that it is functioning as intended and that all features are working correctly.
+11. [Test your app](#11-test-your-app) - Test your app locally to ensure that it is functioning as intended and that all features are working correctly.
 
-12. [Deploy your app]() - Set up a production server, deploy your app, and configure continuous integration and continuous deployment (CI/CD) to automate the deployment process.
+12. [Deploy your app](#12-deploy-your-app) - Set up a production server, deploy your app, and configure continuous integration and continuous deployment (CI/CD) to automate the deployment process.
+
+13. [Next Steps](#next-step-questions) - What are the next steps I should take to improve my app?
 
 ------------------------------------------------------------
 ## 1: Plan and design your app
@@ -154,13 +162,13 @@ By following these steps, you can effectively plan and design your app, ensuring
 6. Install Node.js and React: 
 
     - Install Node.js from the official website at https://nodejs.org/en/download/.
+    - Highly suggest you read [VS Code w/ React Tutorial](https://code.visualstudio.com/docs/nodejs/reactjs-tutorial)
     - Open a command prompt or terminal window and enter the command `npm install -g create-react-app` to install the create-react-app package globally.
     - **TODO** Create a new React app by entering the command `npx create-react-app my-app` where "my-app" is the name you choose for your app.
     - Wait for the installation to complete.
 
 After following these steps, you should have a fully functional development environment with Python, Django, PostgreSQL, and React installed using Pipenv.
 
-**CURRENT**
 ------------------------------------------------------------
 ## 3: Create a new Django project
 [Back to Table of Contents](#table-of-contents)
@@ -172,10 +180,12 @@ After following these steps, you should have a fully functional development envi
 3. Enter the following command to create a new Django project:
 
 ```
-django-admin startproject myproject
+django-admin startproject myproject .
 ```
 
-Replace "myproject" with the name you want to give your project. PWD - I'm going with "hobby_helper"
+Replace "myproject" with the name you want to give your project. PWD - I'm going with `hobby_helper`
+
+Note the . at the end of the command. This tells Django to create the project files in the current directory rather than in a new subdirectory.
 
 4. This will create a new directory called "myproject" (or whatever name you chose) with the following files and directories:
 
@@ -196,9 +206,46 @@ myproject/
 - The `urls.py` file contains the URL routing configuration for your project.
 - The `wsgi.py` file is used for deploying your project to a WSGI (Web Server Gateway Interface) server, such as Apache or Nginx.
 
-5. You can now proceed to the next steps to create your Django models, views, and templates.
+5. To create a new app within your project, run the following command:
+```
+python manage.py startapp myapp
+```
+Replace myapp with the name of your app.  I will use `espresso_tracker`
+
+This will create a new directory called myapp within your Django project directory, along with some initial files and directories that are used to define the app.
+
+6. To include your app in your project, you will need to add it to your project's list of installed apps. Open your project's `settings.py` file and add the name of your app to the `INSTALLED_APPS` list:
+```
+INSTALLED_APPS = [    ...    'myapp',]
+```
+
+7. You can now proceed to the next steps to create your Django models, views, and templates.
 
 After following these steps, you should have a new Django project with the basic structure and files necessary to start building your web app.
+
+### To Test Your App Locally
+
+1. Open your terminal or command prompt.
+
+2. Navigate to your Django project directory.
+
+3. Run the following command to start the development server:
+```
+python manage.py runserver
+```
+
+4. If the server started successfully, you should see some output in your terminal that looks like this:
+```
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+```
+
+5. Open a web browser and navigate to `http://localhost:8000/` or `http://127.0.0.1:8000/`. You should see the default Django welcome page, which indicates that your server is up and running.
+
+6. To test your app specifically, you will need to navigate to the appropriate URL for your views. For example, if you have a view that displays a list of items at `/items/`, you would navigate to `http://localhost:8000/items/` or `http://127.0.0.1:8000/items/` to test it.
+
+7. As you make changes to your code, you can refresh your web browser to see the updated results. If you encounter any errors or issues, Django will display them in your terminal output or in the browser window, depending on the type of error.
+
 
 ------------------------------------------------------------
 ## 4: Define your Django models
@@ -241,11 +288,20 @@ This example defines a `Recipe` model with four fields: `name`, `grind_size`, `b
 - `OneToOneField` for one-to-one relationships
 - `ManyToManyField` for many-to-many relationships
 
-6. Run migrations to create and update your database schema:
+Example models.py file:
 ```
-python manage.py makemigrations
-python manage.py migrate
+from django.db import models
 
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    publication_date = models.DateField()
+    num_pages = models.IntegerField()
+    is_available = models.BooleanField(default=True)
 ```
 
 ------------------------------------------------------------
@@ -260,14 +316,51 @@ To set up your PostgreSQL database for your Django project, follow these steps:
 ```
 createdb myproject
 ```
-This will create a new database called myproject that you can use for your Django project.
+This will create a new database called myproject that you can use for your Django project. Use name `hobby_helper`
+
+Note - this didn't work for me.  Turns out this only works for unix/linux.  I had to login to psql from cmd as the super user:
+```
+psql -U postgres #or whatever the superuser name is
+```
+then I ran the psql command:
+```
+CREATE DATABASE hobby_helper;
+```
 
 3. Create a new database user for your Django project. You can do this using the createuser command-line tool that comes with PostgreSQL. For example:
 ```
-createuser myuser --interactive
+CREATE ROLE <username> WITH LOGIN PASSWORD '<password>';
 ```
 
-This will create a new user called myuser that you can use to connect to your database.
+This will create a new user called etluser in this case that you can use to connect to your database.
+```
+psql -U postgres -d hobby_helper
+```
+Before you can give permissions to a schema, you first need to instantiate the schema by building a table in it. (working theory)
+```
+CREATE SCHEMA espresso;
+```
+
+Now give this user permissions to... everything?  Don't fully understand this and probably need to look into minimal permissions at some point.
+
+Need to grant permissions on public schema for django migrations
+
+```
+GRANT ALL PRIVILEGES ON SCHEMA public TO etluser;
+
+GRANT ALL PRIVILEGES ON DATABASE hobby_helper TO etluser;
+GRANT ALL PRIVILEGES ON SCHEMA espresso TO etluser;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA espresso TO etluser;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA espresso TO etluser;
+```
+Check for success:
+```
+SELECT has_database_privilege('etluser', 'hobby_helper', 'CONNECT');
+
+SELECT has_table_privilege('etluser', table_name, 'SELECT, INSERT, UPDATE, DELETE')
+FROM information_schema.tables
+WHERE table_schema = 'public';
+```
 
 4. Set the DATABASES setting in your Django project's settings.py file to connect to your PostgreSQL database. For example:
 ```
@@ -286,9 +379,12 @@ This configuration tells Django to use the PostgreSQL database engine, and to co
 
 5. Run database migrations to create the necessary tables and schema for your Django app. You can do this using the following command:
 ```
+python manage.py makemigrations
 python manage.py migrate
 
 ```
+To summarize, makemigrations creates new database migrations based on changes to your Django models, while migrate applies those database migrations to your database, modifying the database schema to reflect the changes to your models.
+
 This will create the necessary tables in your PostgreSQL database based on the models you have defined in your Django app.
 
 That's it! Your Django project should now be set up to use your PostgreSQL database. You can now use the Django ORM to interact with your database and create, read, update, and delete records as needed.
@@ -297,28 +393,182 @@ That's it! Your Django project should now be set up to use your PostgreSQL datab
 ## 6: Create your Django views
 [Back to Table of Contents](#table-of-contents)
 
+In this step, we'll create Django views that handle requests from your web app and render the appropriate responses. For this espresso tracking app, we'll need views to handle the following:
+1. List all brews
+2. Add a new brew
+3. Update an existing brew
+4. Delete a brew
+5. List all beans
+6. Add a new bean
+7. Update an existing bean
+8. Delete a bean
+
+### 1: Import necessary modules
+Inside the `espresso_tracker` folder, you'll find a file named views.py. Open it and start by importing the necessary modules:
+
+```
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from .models import Brew, Bean
+import json
+```
+
+### 2: Create the views
+Next, create the views for the different actions you want to handle:
+```
+# List all brews
+def brews(request):
+    if request.method == 'GET':
+        brew_list = list(Brew.objects.values())
+        return JsonResponse(brew_list, safe=False)
+
+# Add a new brew
+@csrf_exempt
+def add_brew(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        brew = Brew.objects.create(**data)
+        return JsonResponse({'id': brew.id})
+
+# Update an existing brew
+@csrf_exempt
+def update_brew(request, brew_id):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        brew = get_object_or_404(Brew, id=brew_id)
+        for key, value in data.items():
+            setattr(brew, key, value)
+        brew.save()
+        return JsonResponse({'id': brew.id})
+
+# Delete a brew
+@csrf_exempt
+def delete_brew(request, brew_id):
+    if request.method == 'DELETE':
+        brew = get_object_or_404(Brew, id=brew_id)
+        brew.delete()
+        return JsonResponse({'id': brew_id})
+
+# List all beans
+def beans(request):
+    if request.method == 'GET':
+        bean_list = list(Bean.objects.values())
+        return JsonResponse(bean_list, safe=False)
+
+# Add a new bean
+@csrf_exempt
+def add_bean(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        bean = Bean.objects.create(**data)
+        return JsonResponse({'id': bean.id})
+
+# Update an existing bean
+@csrf_exempt
+def update_bean(request, bean_id):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        bean = get_object_or_404(Bean, id=bean_id)
+        for key, value in data.items():
+            setattr(bean, key, value)
+        bean.save()
+        return JsonResponse({'id': bean.id})
+
+# Delete a bean
+@csrf_exempt
+def delete_bean(request, bean_id):
+    if request.method == 'DELETE':
+        bean = get_object_or_404(Bean, id=bean_id)
+        bean.delete()
+        return JsonResponse({'id': bean_id})
+
+```
+
 ------------------------------------------------------------
 ## 7: Define your Django URL patterns
 [Back to Table of Contents](#table-of-contents)
 
+### 1: Create URL patterns
+Now, we need to wire up these views to the respective URL patterns in the urls.py file inside the `espresso_tracker` folder. If you don't have a `urls.py` file, create one and add the following code:
+```
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('brews/', views.brews, name='brews'),
+    path('brews/add/', views.add_brew, name='add_brew'),
+    path('brews/update/<int:brew_id>/', views.update_brew, name='update_brew'),
+    path('brews/delete/<int:brew_id>/', views.delete_brew, name='delete_brew'),
+    path('beans/', views.beans, name='beans'),
+    path('beans/add/', views.add_bean, name='add_bean'),
+    path('beans/update/<int:bean_id>/', views.update_bean, name='update_bean'),
+    path('beans/delete/<int:bean_id>/', views.delete_bean, name='delete_bean'),
+]
+```
+
+### 2: Include URL patterns in the project
+Finally, include these URL patterns in your project's main `urls.py` file:
+```
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('espresso_tracker.urls')),
+]
+```
+Now you have created the views for handling the brew and bean actions in your Django app. In the next steps, you'll create React components to interact with these views and display the data to the user.
+
 ------------------------------------------------------------
-## 8: 
+## 8: Set up your React app
+[Back to Table of Contents](#table-of-contents)
+
+### 1: Install Node.js and npm
+First, make sure you have Node.js and npm (Node package manager) installed on your machine. You can download the installer for your operating system from the [official Node.js website.](https://nodejs.org/en/download/)
+
+### 2: Create a new React app
+Once Node.js and npm are installed, open your terminal or command prompt, navigate to your Django project directory, and run the following command to create a new React app using [Create React App:](https://github.com/facebook/create-react-app)
+```
+npx create-react-app frontend
+```
+This command creates a new folder named `frontend` inside your Django project directory, which will contain your React app.
+
+### 3: Change to the `frontend` directory
+Navigate to the `frontend` directory by running the following command in your terminal or command prompt:
+```
+cd frontend
+```
+
+### 4: Install necessary dependencies
+To interact with your Django backend, you'll need the `axios` library to make API requests. Install it by running the following command:
+```
+npm install axios
+```
+
+### 5: Start the React development server
+You can now start the React development server by running the following command:
+```
+npm start
+```
+This command will start the React development server, and your React app will be accessible at `http://localhost:3000/`. The development server will automatically reload your app whenever you make changes to your React components.
+
+That's it! You've now set up your React app. In the next step, you'll create React components to interact with your Django backend and display the data to the user.
+
+------------------------------------------------------------
+## 9: Create your React components
 [Back to Table of Contents](#table-of-contents)
 
 ------------------------------------------------------------
-## 9: 
+## 10: Connect your React app to your Django backend
 [Back to Table of Contents](#table-of-contents)
 
 ------------------------------------------------------------
-## 10: 
+## 11: Test your app
 [Back to Table of Contents](#table-of-contents)
 
 ------------------------------------------------------------
-## 11: 
-[Back to Table of Contents](#table-of-contents)
-
-------------------------------------------------------------
-## 12: 
+## 12: Deploy your app
 [Back to Table of Contents](#table-of-contents)
 
 ------------------------------------------------------------
@@ -331,6 +581,17 @@ That's it! Your Django project should now be set up to use your PostgreSQL datab
 * How do I enable multiple users to share the same account/data?
 * How do I backup data in the database?
 * How do I make a real-time admin dashboard?
+
+# Proposed Next Steps
+[Back to Table of Contents](#table-of-contents)
+
+1. Add a user model to the Django app
+2. Add a login page to the React app
+3. Add a signup page to the React app
+4. Add a logout button to the React app
+5. Add a profile page to the React app
+6. Add a dashboard page to the React app
+
 
 ------------------------------------------------------------
 # List of Tech Used 
