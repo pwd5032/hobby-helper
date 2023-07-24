@@ -1,3 +1,5 @@
+# **NOTE** Abandoned in favor of hobby-helper-backend and hobby-helper-frontend
+
 # hobby-helper Project
 Web app to help with microgreens, espresso, and more
 
